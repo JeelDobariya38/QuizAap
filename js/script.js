@@ -31,7 +31,7 @@ continue_btn.onclick = ()=>{
     info_box.classList.remove("activeInfo"); //hide info box
     quiz_box.classList.add("activeQuiz"); //show quiz box
     currSession.changeQuestion();
-    updateQuetionOnUI(currSession.currentQuestion); //calling updateQuetionOnUI function
+    updateQuetionOnUI(currSession.questionCount, currSession.currentQuestion); //calling updateQuetionOnUI function
     updateQuestionCounterOnUI(currSession.questionCount, currSession.totalQuestionCount);
     startTimer(15); //calling startTimer function
     startTimerLine(0); //calling startTimerLine function
@@ -54,7 +54,7 @@ restart_quiz.onclick = ()=>{
     timeValue = 15;
     widthValue = 0;
     currSession.changeQuestion();
-    updateQuetionOnUI(currSession.currentQuestion); //calling updateQuetionOnUI function
+    updateQuetionOnUI(currSession.questionCount, currSession.currentQuestion); //calling updateQuetionOnUI function
     updateQuestionCounterOnUI(currSession.questionCount, currSession.totalQuestionCount);
     clearInterval(counter); //clear counter
     clearInterval(counterLine); //clear counterLine
@@ -76,7 +76,7 @@ const next_btn = document.querySelector("footer .next_btn");
 next_btn.onclick = ()=>{
     if(currSession.questionCount < currSession.totalQuestionCount){ //if question count is less than total question length
         currSession.changeQuestion();
-        updateQuetionOnUI(currSession.currentQuestion); //calling updateQuetionOnUI function
+        updateQuetionOnUI(currSession.questionCount, currSession.currentQuestion); //calling updateQuetionOnUI function
         updateQuestionCounterOnUI(currSession.questionCount, currSession.totalQuestionCount);
         clearInterval(counter); //clear counter
         clearInterval(counterLine); //clear counterLine
@@ -91,7 +91,7 @@ next_btn.onclick = ()=>{
     }
 }
 
-function updateQuetionOnUI(question){
+function updateQuetionOnUI(questionNumber, question){
     /* 
     updateQuetionOnUI function, just update question on ui & add necssary event listener to options divs.
     
@@ -107,7 +107,7 @@ function updateQuetionOnUI(question){
     const que_text = document.querySelector(".que_text");
 
     //creating a new span and div tag for question and option and passing the value using array index
-    let que_tag = '<span>'+ question.numb + ". " + question.question +'</span>';
+    let que_tag = '<span>'+ questionNumber + ". " + question.question +'</span>';
     let option_tag = '<div class="option"><span>'+ question.options[0] +'</span></div>'
     + '<div class="option"><span>'+ question.options[1] +'</span></div>'
     + '<div class="option"><span>'+ question.options[2] +'</span></div>'
