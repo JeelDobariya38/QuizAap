@@ -12,24 +12,25 @@ const timeCount = document.querySelector(".timer .timer_sec");
 
 // store current session
 let currSession = undefined;
+let uihandler = new UIHandler();
 console.log("Session: ", currSession);
+console.log("UIHandler: ", uihandler);
 
 // if startQuiz button clicked
 start_btn.onclick = ()=>{
-    info_box.classList.add("activeInfo"); //show info box
+    uihandler.toggleScreen(ScreenTypes.INFO);
 }
 
 // if exitQuiz button clicked
 exit_btn.onclick = ()=>{
-    info_box.classList.remove("activeInfo"); //hide info box
+    uihandler.toggleScreen(ScreenTypes.BLANK);
 }
 
 // if continueQuiz button clicked
 continue_btn.onclick = ()=>{
     currSession = new SessionContext(); //start a new session
     
-    info_box.classList.remove("activeInfo"); //hide info box
-    quiz_box.classList.add("activeQuiz"); //show quiz box
+    uihandler.toggleScreen(ScreenTypes.QUIZ);
     currSession.changeQuestion();
     updateQuetionOnUI(currSession.questionCount, currSession.currentQuestion); //calling updateQuetionOnUI function
     updateQuestionCounterOnUI(currSession.questionCount, currSession.totalQuestionCount);
@@ -49,8 +50,7 @@ const quit_quiz = result_box.querySelector(".buttons .quit");
 restart_quiz.onclick = ()=>{
     currSession = new SessionContext();
     
-    quiz_box.classList.add("activeQuiz"); //show quiz box
-    result_box.classList.remove("activeResult"); //hide result box
+    uihandler.toggleScreen(ScreenTypes.QUIZ);
     timeValue = 15;
     widthValue = 0;
     currSession.changeQuestion();
@@ -161,9 +161,7 @@ function onOptionSelected(selectedOption){
 }
 
 function showResult(){
-    info_box.classList.remove("activeInfo"); //hide info box
-    quiz_box.classList.remove("activeQuiz"); //hide quiz box
-    result_box.classList.add("activeResult"); //show result box
+    uihandler.toggleScreen(ScreenTypes.RESULT);
     
     const scoreText = result_box.querySelector(".score_text");
     if (currSession.userScore > currSession.totalQuestionCount/2){ // if user scored more than 3
