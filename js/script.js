@@ -1,10 +1,7 @@
 //selecting all required elements
 const start_btn = document.querySelector(".start_btn button");
-const info_box = document.querySelector(".info_box");
-const exit_btn = info_box.querySelector(".buttons .quit");
-const continue_btn = info_box.querySelector(".buttons .restart");
-const quiz_box = document.querySelector(".quiz_box");
-const result_box = document.querySelector(".result_box");
+const exit_btn = document.querySelector(".info_box").querySelector(".buttons .quit");
+const continue_btn = document.querySelector(".info_box").querySelector(".buttons .restart");
 const option_list = document.querySelector(".option_list");
 const time_line = document.querySelector("header .time_line");
 const timeText = document.querySelector(".timer .time_left_txt");
@@ -32,8 +29,8 @@ continue_btn.onclick = ()=>{
     
     uihandler.toggleScreen(ScreenTypes.QUIZ);
     currSession.changeQuestion();
-    updateQuetionOnUI(currSession.questionCount, currSession.currentQuestion); //calling updateQuetionOnUI function
-    updateQuestionCounterOnUI(currSession.questionCount, currSession.totalQuestionCount);
+    uihandler.updateQuestion(currSession.questionCount, currSession.currentQuestion);
+    uihandler.updateQuestionCounter(currSession.questionCount, currSession.totalQuestionCount);
     startTimer(15); //calling startTimer function
     startTimerLine(0); //calling startTimerLine function
 }
@@ -43,8 +40,8 @@ let counter;
 let counterLine;
 let widthValue = 0;
 
-const restart_quiz = result_box.querySelector(".buttons .restart");
-const quit_quiz = result_box.querySelector(".buttons .quit");
+const restart_quiz = document.querySelector(".result_box").querySelector(".buttons .restart");
+const quit_quiz = document.querySelector(".result_box").querySelector(".buttons .quit");
 
 // if restartQuiz button clicked
 restart_quiz.onclick = ()=>{
@@ -54,8 +51,8 @@ restart_quiz.onclick = ()=>{
     timeValue = 15;
     widthValue = 0;
     currSession.changeQuestion();
-    updateQuetionOnUI(currSession.questionCount, currSession.currentQuestion); //calling updateQuetionOnUI function
-    updateQuestionCounterOnUI(currSession.questionCount, currSession.totalQuestionCount);
+    uihandler.updateQuestion(currSession.questionCount, currSession.currentQuestion);
+    uihandler.updateQuestionCounter(currSession.questionCount, currSession.totalQuestionCount);
     clearInterval(counter); //clear counter
     clearInterval(counterLine); //clear counterLine
     startTimer(timeValue); //calling startTimer function
@@ -76,8 +73,8 @@ const next_btn = document.querySelector("footer .next_btn");
 next_btn.onclick = ()=>{
     if(currSession.questionCount < currSession.totalQuestionCount){ //if question count is less than total question length
         currSession.changeQuestion();
-        updateQuetionOnUI(currSession.questionCount, currSession.currentQuestion); //calling updateQuetionOnUI function
-        updateQuestionCounterOnUI(currSession.questionCount, currSession.totalQuestionCount);
+        uihandler.updateQuestion(currSession.questionCount, currSession.currentQuestion);
+        uihandler.updateQuestionCounter(currSession.questionCount, currSession.totalQuestionCount);
         clearInterval(counter); //clear counter
         clearInterval(counterLine); //clear counterLine
         startTimer(timeValue); //calling startTimer function
@@ -88,38 +85,6 @@ next_btn.onclick = ()=>{
         clearInterval(counter); //clear counter
         clearInterval(counterLine); //clear counterLine
         showResult(); //calling showResult function
-    }
-}
-
-function updateQuetionOnUI(questionNumber, question){
-    /* 
-    updateQuetionOnUI function, just update question on ui & add necssary event listener to options divs.
-    
-    Params:
-        question: Obj{
-            numb: Number,
-            questionstr: String,
-            options: Array[type: String, length: 4]
-        }
-    
-    Note: doesn;t depend on any external global variable.
-    */
-    const que_text = document.querySelector(".que_text");
-
-    //creating a new span and div tag for question and option and passing the value using array index
-    let que_tag = '<span>'+ questionNumber + ". " + question.question +'</span>';
-    let option_tag = '<div class="option"><span>'+ question.options[0] +'</span></div>'
-    + '<div class="option"><span>'+ question.options[1] +'</span></div>'
-    + '<div class="option"><span>'+ question.options[2] +'</span></div>'
-    + '<div class="option"><span>'+ question.options[3] +'</span></div>';
-    que_text.innerHTML = que_tag; //adding new span tag inside que_tag
-    option_list.innerHTML = option_tag; //adding new div tag inside option_tag
-    
-    const option = option_list.querySelectorAll(".option");
-
-    // set onclick attribute to all available options
-    for(i=0; i < option.length; i++){
-        option[i].setAttribute("onclick", "onOptionSelected(this)");
     }
 }
 
@@ -163,7 +128,7 @@ function onOptionSelected(selectedOption){
 function showResult(){
     uihandler.toggleScreen(ScreenTypes.RESULT);
     
-    const scoreText = result_box.querySelector(".score_text");
+    const scoreText = document.querySelector(".result_box").querySelector(".score_text");
     if (currSession.userScore > currSession.totalQuestionCount/2){ // if user scored more than 3
         //creating a new span tag and passing the user score number and total question number
         let scoreTag = '<span>and congrats! 🎉, You got <p>'+ currSession.userScore +'</p> out of <p>'+ currSession.totalQuestionCount +'</p></span>';
@@ -216,20 +181,4 @@ function startTimerLine(time){
             clearInterval(counterLine); //clear counterLine
         }
     }
-}
-
-function updateQuestionCounterOnUI(questionCounter, noOfQuestion){
-    /*
-    updateQuestionCounterOnUI function, update question count whch at bootom of ui,
-    by, creating a new span tag and passing the question number and total question
-    
-    Params:
-        questionCounter: Number,
-        noOfQuestion: Number,
-    
-    Note: doesn;t depend on any external global variable.
-    */
-    const bottom_ques_counter = document.querySelector("footer .total_que");
-    let totalQueCounTag = '<span><p>'+ questionCounter +'</p> of <p>'+ noOfQuestion +'</p> Questions</span>';
-    bottom_ques_counter.innerHTML = totalQueCounTag;  //adding new span tag inside bottom_ques_counter
 }

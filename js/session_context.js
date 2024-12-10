@@ -14,11 +14,23 @@ class SessionContext {
     }
       
     changeQuestion() {
+        /*
+        changeQuestion function is use to change question.
+        */
         this.questionCount += 1;
         this.currentQuestion = questions[this.questionCount-1];
     }
       
     checkAnswer(userAns) {
+        /*
+        checkAnswer function is use to check the answer for current question.
+        
+        Params:
+            - userAns: String,
+        
+        Returns:
+            - Boolean
+        */
         return this.currentQuestion.answer == userAns;
     }
 }
