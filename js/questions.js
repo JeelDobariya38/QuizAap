@@ -55,4 +55,15 @@ let questions = [
       "eXamine Multiple Language"
     ]
   },
+    {
+    numb: 6,
+    question: "Hello, are you enjoying?",
+    answer: "yes, ofcourse",
+    options: [
+        "yes",
+        "yes, ofcourse",
+        "no",
+        "maybe"
+    ]
+  }
 ];
