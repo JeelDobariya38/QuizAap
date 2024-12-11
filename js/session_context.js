@@ -17,10 +17,12 @@ const PerformanceVector = Object.freeze({
 
 class SessionContext {
     /*
-        SessionContext class is responsible for store session context. 
-        
-        - changeQuestion(): for changeing question
-        - checkAnswer(): for checking answer
+    SessionContext class is responsible for store session context. 
+    
+    Methods:
+        - changeQuestion(): for changeing question.
+        - checkAnswer(): for checking answer.
+        - calculateUserPerformance(): for calculating user performance.
     */
     
     constructor() {

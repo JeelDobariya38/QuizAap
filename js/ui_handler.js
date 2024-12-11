@@ -1,4 +1,14 @@
 class InvalidEnumValueError extends Error {
+    /*
+    InvalidEnumValueError represents a runtime error,
+    This error is raise when a invalid value is passed to function 
+    where, the parameter is expected to be of some sort of enum type.
+    
+    Param: (of constructor)
+      - valuePassed: AnyTypeOfValue (value passed to func, which is invalid)
+      - enumObjName: String (name of enum obj, which included all valid values0)
+    */
+    
     constructor (valuePassed, enumObjName) {
         super();
         this.message = `Error: Value (${valuePassed}) passed is not a valid value in "${enumObjName}" Enum`;
@@ -6,10 +16,10 @@ class InvalidEnumValueError extends Error {
 }
 
 /*
-ScreenTypes is emun that is liable,
+ScreenType is emun that is liable,
 to represent all the screens/views types/layouts in entire website.
 */
-const ScreenTypes = Object.freeze({
+const ScreenType = Object.freeze({
     BLANK: 0,
     INFO: 1,
     QUIZ: 2,
@@ -18,9 +28,13 @@ const ScreenTypes = Object.freeze({
 
 class UIHandler {
     /*
-    UIHandler class is responsible for ui updation and user interaction handling.
+    UIHandler class is responsible for ui updation.
     
-    - toogleScreen(): for switching screens
+    Methods:
+        - toogleScreen(): for switching screens on ui.
+        - updateQuestion(): for updating curr question with new question on ui.
+        - updateQuestionCounter(): for updating question count on ui.
+        - updateScoreText(): for updating score text on ui.
     */
     
     constructor() {
@@ -33,7 +47,7 @@ class UIHandler {
     
     toggleScreen(screenType) {
         /*
-        toggleScreen function is use to toogle between screen.
+        toggleScreen function is use to toogle between different screen.
         
         Params:
             - screenType: Enum[ScreenTypes],
@@ -43,17 +57,17 @@ class UIHandler {
         this.quizBoxElem.classList.remove("activeQuiz");
         this.resultBoxElem.classList.remove("activeResult");
         
-        if (screenType == ScreenTypes.INFO) {
+        if (screenType == ScreenType.INFO) {
             this.infoBoxElem.classList.add("activeInfo");
         } 
-        else if (screenType == ScreenTypes.QUIZ) {
+        else if (screenType == ScreenType.QUIZ) {
             this.quizBoxElem.classList.add("activeQuiz");
         }
-        else if (screenType == ScreenTypes.RESULT) {
+        else if (screenType == ScreenType.RESULT) {
             this.resultBoxElem.classList.add("activeResult");
         }
         else {
-            throw new InvalidEnumValueError(screenType, "ScreenTypes");
+            throw new InvalidEnumValueError(screenType, "ScreenType");
         }
     }
     
@@ -71,14 +85,13 @@ class UIHandler {
         
         const que_text = document.querySelector(".que_text");
 
-        //creating a new span and div tag for question and option and passing the value using array index
         let que_tag = '<span>'+ questionNumber + ". " + questionObj.question +'</span>';
         let option_tag = '<div class="option"><span>'+ questionObj.options[0] +'</span></div>'
         + '<div class="option"><span>'+ questionObj.options[1] +'</span></div>'
         + '<div class="option"><span>'+ questionObj.options[2] +'</span></div>'
         + '<div class="option"><span>'+ questionObj.options[3] +'</span></div>';
-        que_text.innerHTML = que_tag; //adding new span tag inside que_tag
-        option_list.innerHTML = option_tag; //adding new div tag inside option_tag
+        que_text.innerHTML = que_tag;
+        option_list.innerHTML = option_tag;
         
         const option = option_list.querySelectorAll(".option");
 

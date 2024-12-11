@@ -16,19 +16,19 @@ console.log("UIHandler: ", uihandler);
 
 // if startQuiz button clicked
 start_btn.onclick = ()=>{
-    uihandler.toggleScreen(ScreenTypes.INFO);
+    uihandler.toggleScreen(ScreenType.INFO);
 }
 
 // if exitQuiz button clicked
 exit_btn.onclick = ()=>{
-    uihandler.toggleScreen(ScreenTypes.BLANK);
+    uihandler.toggleScreen(ScreenType.BLANK);
 }
 
 // if continueQuiz button clicked
 continue_btn.onclick = ()=>{
     currSession = new SessionContext(); //start a new session
     
-    uihandler.toggleScreen(ScreenTypes.QUIZ);
+    uihandler.toggleScreen(ScreenType.QUIZ);
     currSession.changeQuestion();
     uihandler.updateQuestion(currSession.questionCount, currSession.currentQuestion);
     uihandler.updateQuestionCounter(currSession.questionCount, currSession.totalQuestionCount);
@@ -48,7 +48,7 @@ const quit_quiz = document.querySelector(".result_box").querySelector(".buttons 
 restart_quiz.onclick = ()=>{
     currSession = new SessionContext();
     
-    uihandler.toggleScreen(ScreenTypes.QUIZ);
+    uihandler.toggleScreen(ScreenType.QUIZ);
     timeValue = 15;
     widthValue = 0;
     currSession.changeQuestion();
@@ -87,7 +87,7 @@ next_btn.onclick = ()=>{
         clearInterval(counterLine); //clear counterLine
         
         let performanceVector = currSession.calculateUserPerformance();
-        uihandler.toggleScreen(ScreenTypes.RESULT);
+        uihandler.toggleScreen(ScreenType.RESULT);
         uihandler.updateScoreText(performanceVector, currSession.userScore, currSession.totalQuestionCount);
     }
 }
