@@ -23,6 +23,7 @@ class UIHandler {
         this.quizBoxElem = document.querySelector(".quiz_box");
         this.resultBoxElem = document.querySelector(".result_box");
         this.bottomQuesCounterElem = document.querySelector("footer .total_que");
+        this.scoreTextElem = document.querySelector(".result_box").querySelector(".score_text");
     }
     
     toggleScreen(screenType) {
@@ -61,8 +62,6 @@ class UIHandler {
                 questionstr: String,
                 options: Array[type: String, length: 4]
               }
-        
-        Note: doesn;t depend on any external global variable.
         */
         
         const que_text = document.querySelector(".que_text");
@@ -86,7 +85,7 @@ class UIHandler {
     
     updateQuestionCounter(questionCounter, noOfQuestion) {
         /*
-        updateQuestionCounterOnUI function, update question count whch at bootom of ui,
+        updateQuestionCounterOnUI function, update question count which at bootom of ui,
         by, creating a new span tag and passing the question number and total question.
         
         Params:
@@ -96,5 +95,32 @@ class UIHandler {
         
         let totalQueCounTag = '<span><p>'+ questionCounter +'</p> of <p>'+ noOfQuestion +'</p> Questions</span>';
         this.bottomQuesCounterElem.innerHTML = totalQueCounTag;
+    }
+    
+    updateScoreText(userScore, noOfQuestion) {
+        /*
+        updateScoreText function, update the result text on result screen.
+        
+        Params:
+            - userScore: Number,
+            - noOfQuestion: Number,
+        */
+        
+        let scoreTextHTML;
+        
+        if (userScore == noOfQuestion) {
+            scoreTextHTML = `congrats! 🎉, You have got all of them correctly!!!`;
+        }
+        else if (userScore > noOfQuestion/2){
+            scoreTextHTML = `congrats! 🎉, You got <p>${userScore}</p> out of <p>${noOfQuestion}</p>`;
+        }
+        else if(userScore > currSession.totalQuestionCount/3){
+            scoreTextHTML = `nice 😎, You got <p>${userScore}</p> out of <p>${noOfQuestion}</p>`;
+        }
+        else {
+            scoreTextHTML = `sorry 😐, You got only <p>${userScore}</p> out of <p>${noOfQuestion}</p>`;
+        }
+        
+        this.scoreTextElem.innerHTML = `<span style='text-align: center'>and ${scoreTextHTML}</span>`;
     }
 }

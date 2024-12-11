@@ -84,7 +84,8 @@ next_btn.onclick = ()=>{
     } else{
         clearInterval(counter); //clear counter
         clearInterval(counterLine); //clear counterLine
-        showResult(); //calling showResult function
+        uihandler.toggleScreen(ScreenTypes.RESULT);
+        uihandler.updateScoreText(currSession.userScore, currSession.totalQuestionCount);
     }
 }
 
@@ -123,25 +124,6 @@ function onOptionSelected(selectedOption){
         option_list.children[i].classList.add("disabled"); //once user select an option then disabled all options
     }
     next_btn.classList.add("show"); //show the next button if user selected any option
-}
-
-function showResult(){
-    uihandler.toggleScreen(ScreenTypes.RESULT);
-    
-    const scoreText = document.querySelector(".result_box").querySelector(".score_text");
-    if (currSession.userScore > currSession.totalQuestionCount/2){ // if user scored more than 3
-        //creating a new span tag and passing the user score number and total question number
-        let scoreTag = '<span>and congrats! 🎉, You got <p>'+ currSession.userScore +'</p> out of <p>'+ currSession.totalQuestionCount +'</p></span>';
-        scoreText.innerHTML = scoreTag;  //adding new span tag inside score_Text
-    }
-    else if(currSession.userScore > currSession.totalQuestionCount/3){ // if user scored more than 1
-        let scoreTag = '<span>and nice 😎, You got <p>'+ currSession.userScore +'</p> out of <p>'+ currSession.totalQuestionCount +'</p></span>';
-        scoreText.innerHTML = scoreTag;
-    }
-    else{ // if user scored less than 1
-        let scoreTag = '<span>and sorry 😐, You got only <p>'+ currSession.userScore +'</p> out of <p>'+ currSession.totalQuestionCount  +'</p></span>';
-        scoreText.innerHTML = scoreTag;
-    }
 }
 
 function startTimer(time){
