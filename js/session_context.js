@@ -1,9 +1,18 @@
+/*
+PerformanceVector is emun that is liable to convert performance/percentage/userscore in human readable words form
+ 
+ - value 100 or above will be count as EXPONENTIAL
+ - value 90 or above will be count as GREAT
+ - value 80 or above will be count as GOOD, and soon and so forth. to zero.
+*/
 const PerformanceVector = Object.freeze({
-    EXCELLENT: 100,
+    EXPONENTIAL: 100,
+    EXCELLENT: 90,
     GREAT: 80,
     GOOD: 65,
-    BAD: 20,
-    POOR: 0,
+    BAD: 40,
+    POOR: 20,
+    ZERO: 0,
 });
 
 class SessionContext {
@@ -57,11 +66,12 @@ class SessionContext {
         let normalizedPercentage = this.userScore / this.totalQuestionCount;
         let percentage = normalizedPercentage * 100;
         
-        if (percentage >= PerformanceVector.EXCELLENT) return PerformanceVector.EXCELLENT
+        if (percentage >= 100) return PerformanceVector.EXPONENTIAL
+        else if (percentage >= PerformanceVector.EXCELLENT) return PerformanceVector.EXCELLENT
         else if (percentage >= PerformanceVector.GREAT) return PerformanceVector.GREAT
         else if (percentage >= PerformanceVector.GOOD) return PerformanceVector.GOOD
         else if (percentage >= PerformanceVector.BAD) return PerformanceVector.BAD
         else if (percentage >= PerformanceVector.POOR) return PerformanceVector.POOR
-        else throw `Error: Some error occur in calculating performance vector for percentage (${percentage})!!!`;
+        else return PerformanceVector.ZERO;
     }
 }

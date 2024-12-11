@@ -1,9 +1,14 @@
-class InvalidScreenTypeError extends Error {
-    constructor () {
-        super("valid ScreenTypes must be passed!!");
+class InvalidEnumValueError extends Error {
+    constructor (valuePassed, enumObjName) {
+        super();
+        this.message = `Error: Value (${valuePassed}) passed is not a valid value in "${enumObjName}" Enum`;
     }
 }
 
+/*
+ScreenTypes is emun that is liable,
+to represent all the screens/views types/layouts in entire website.
+*/
 const ScreenTypes = Object.freeze({
     BLANK: 0,
     INFO: 1,
@@ -48,7 +53,7 @@ class UIHandler {
             this.resultBoxElem.classList.add("activeResult");
         }
         else {
-            throw new InvalidScreenTypeError();
+            throw new InvalidEnumValueError(screenType, "ScreenTypes");
         }
     }
     
@@ -102,30 +107,36 @@ class UIHandler {
         updateScoreText function, update the result text on result screen.
         
         Params:
-            - userPerformanceVector: Number[0..100] | Enum[PerformanceVector],
+            - userPerformanceVector: Enum[PerformanceVector],
             - userScore: Number,
             - noOfQuestion: Number,
         */
         
         let scoreTextHTML;
         
-        if (userPerformanceVector >= PerformanceVector.EXCELLENT) {
-            scoreTextHTML = `Congrats! 🎓🌟🌟, You have got all of ${noOfQuestion} correctly!!!`;
+        if (userPerformanceVector == PerformanceVector.EXPONENTIAL) {
+            scoreTextHTML = `Congrats! 🌟🌟, You have got all of ${noOfQuestion} correctly!!!`;
         }
-        else if (userPerformanceVector >= PerformanceVector.GREAT) {
-            scoreTextHTML = `Congrats! 🎉, You got ${userScore} out of ${noOfQuestion}`;
+        else if (userPerformanceVector == PerformanceVector.EXCELLENT) {
+            scoreTextHTML = `Excellent! 🎓, You have got majority questions correctly, out of ${noOfQuestion}!!!`;
         }
-        else if (userPerformanceVector >= PerformanceVector.GOOD) {
-            scoreTextHTML = `Nice 😎, You got ${userScore} out of ${noOfQuestion}`;
+        else if (userPerformanceVector == PerformanceVector.GREAT) {
+            scoreTextHTML = `Congrats! 🎉, You got ${userScore} out of ${noOfQuestion} correctly!!!`;
         }
-        else if (userPerformanceVector >= PerformanceVector.BAD) {
-            scoreTextHTML = `Sorry 😐, You got only ${userScore} out of ${noOfQuestion} `;
+        else if (userPerformanceVector == PerformanceVector.GOOD) {
+            scoreTextHTML = `Nice 😎, You got ${userScore} out of ${noOfQuestion} correctly!!!`;
+        }
+        else if (userPerformanceVector == PerformanceVector.BAD) {
+            scoreTextHTML = `Sorry 😐, You got only ${userScore} out of ${noOfQuestion} correctly!!!`;
         } 
-        else if (userPerformanceVector >= PerformanceVector.POOR) {
-            scoreTextHTML = `Unfortunately 😞, You have got none out of the ${noOfQuestion} correctly`;
+        else if (userPerformanceVector == PerformanceVector.POOR) {
+            scoreTextHTML = `Unfortunately 😐, You have got majority incorrectly!!!, but failure are part of successfull journey!!`;
+        }
+        else if (userPerformanceVector == PerformanceVector.ZERO) {
+            scoreTextHTML = `Unfortunately 😞, You have got none out of the ${noOfQuestion} correctly, Better luck next time!!!`
         }
         else {
-            throw "passed valued is not valid value for userPerformanceVector!! value must be between 0 to 100 or any constant from PerformanceVector enum";
+            throw new InvalidEnumValueError(userPerformanceVector, "PerformanceVector");
         }
         
         this.scoreTextElem.innerHTML = "<span style='text-align: center'><p>" + scoreTextHTML + "</p></span>";
