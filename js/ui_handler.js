@@ -31,7 +31,7 @@ class UIHandler {
         toggleScreen function is use to toogle between screen.
         
         Params:
-            - screenType: ScreenTypes,
+            - screenType: Enum[ScreenTypes],
         */
         
         this.infoBoxElem.classList.remove("activeInfo");
@@ -97,30 +97,37 @@ class UIHandler {
         this.bottomQuesCounterElem.innerHTML = totalQueCounTag;
     }
     
-    updateScoreText(userScore, noOfQuestion) {
+    updateScoreText(userPerformanceVector, userScore, noOfQuestion) {
         /*
         updateScoreText function, update the result text on result screen.
         
         Params:
+            - userPerformanceVector: Number[0..100] | Enum[PerformanceVector],
             - userScore: Number,
             - noOfQuestion: Number,
         */
         
         let scoreTextHTML;
         
-        if (userScore == noOfQuestion) {
-            scoreTextHTML = `congrats! 🎉, You have got all of them correctly!!!`;
+        if (userPerformanceVector >= PerformanceVector.EXCELLENT) {
+            scoreTextHTML = `Congrats! 🎓🌟🌟, You have got all of ${noOfQuestion} correctly!!!`;
         }
-        else if (userScore > noOfQuestion/2){
-            scoreTextHTML = `congrats! 🎉, You got <p>${userScore}</p> out of <p>${noOfQuestion}</p>`;
+        else if (userPerformanceVector >= PerformanceVector.GREAT) {
+            scoreTextHTML = `Congrats! 🎉, You got ${userScore} out of ${noOfQuestion}`;
         }
-        else if(userScore > currSession.totalQuestionCount/3){
-            scoreTextHTML = `nice 😎, You got <p>${userScore}</p> out of <p>${noOfQuestion}</p>`;
+        else if (userPerformanceVector >= PerformanceVector.GOOD) {
+            scoreTextHTML = `Nice 😎, You got ${userScore} out of ${noOfQuestion}`;
+        }
+        else if (userPerformanceVector >= PerformanceVector.BAD) {
+            scoreTextHTML = `Sorry 😐, You got only ${userScore} out of ${noOfQuestion} `;
+        } 
+        else if (userPerformanceVector >= PerformanceVector.POOR) {
+            scoreTextHTML = `Unfortunately 😞, You have got none out of the ${noOfQuestion} correctly`;
         }
         else {
-            scoreTextHTML = `sorry 😐, You got only <p>${userScore}</p> out of <p>${noOfQuestion}</p>`;
+            throw "passed valued is not valid value for userPerformanceVector!! value must be between 0 to 100 or any constant from PerformanceVector enum";
         }
         
-        this.scoreTextElem.innerHTML = `<span style='text-align: center'>and ${scoreTextHTML}</span>`;
+        this.scoreTextElem.innerHTML = "<span style='text-align: center'><p>" + scoreTextHTML + "</p></span>";
     }
 }

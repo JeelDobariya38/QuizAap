@@ -13,6 +13,7 @@ let uihandler = new UIHandler();
 console.log("Session: ", currSession);
 console.log("UIHandler: ", uihandler);
 
+
 // if startQuiz button clicked
 start_btn.onclick = ()=>{
     uihandler.toggleScreen(ScreenTypes.INFO);
@@ -84,8 +85,10 @@ next_btn.onclick = ()=>{
     } else{
         clearInterval(counter); //clear counter
         clearInterval(counterLine); //clear counterLine
+        
+        let performanceVector = currSession.calculateUserPerformance();
         uihandler.toggleScreen(ScreenTypes.RESULT);
-        uihandler.updateScoreText(currSession.userScore, currSession.totalQuestionCount);
+        uihandler.updateScoreText(performanceVector, currSession.userScore, currSession.totalQuestionCount);
     }
 }
 
