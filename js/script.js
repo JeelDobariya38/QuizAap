@@ -2,7 +2,9 @@
 const start_btn = document.querySelector(".start_btn button");
 const exit_btn = document.querySelector(".info_box").querySelector(".buttons .quit");
 const continue_btn = document.querySelector(".info_box").querySelector(".buttons .restart");
-const option_list = document.querySelector(".option_list");
+const restart_quiz = document.querySelector(".result_box").querySelector(".buttons .restart");
+const quit_quiz = document.querySelector(".result_box").querySelector(".buttons .quit");
+const next_btn = document.querySelector("footer .next_btn");
 
 // store current session
 let timer = undefined;
@@ -37,9 +39,6 @@ continue_btn.onclick = () => {
     timer.start();
 }
 
-const restart_quiz = document.querySelector(".result_box").querySelector(".buttons .restart");
-const quit_quiz = document.querySelector(".result_box").querySelector(".buttons .quit");
-
 // if restartQuiz button clicked
 restart_quiz.onclick = () => {
     currSession = new SessionContext();
@@ -52,7 +51,7 @@ restart_quiz.onclick = () => {
     uihandler.updateQuestionCounter(currSession.questionCount, currSession.totalQuestionCount);
     timer.reset();
     timer.start();
-    next_btn.classList.remove("show"); //hide the next button
+    uihandler.updateNextBtnVisiblity(false); //hide the next button
 }
 
 // if quitQuiz button clicked
@@ -60,7 +59,6 @@ quit_quiz.onclick = () => {
     window.location.reload(); //reload the current window
 }
 
-const next_btn = document.querySelector("footer .next_btn");
 
 // if Next Que button clicked
 next_btn.onclick = () => {
@@ -72,7 +70,7 @@ next_btn.onclick = () => {
         uihandler.updateQuestionCounter(currSession.questionCount, currSession.totalQuestionCount);
         timer.reset();
         timer.start();
-        next_btn.classList.remove("show"); //hide the next button
+        uihandler.updateNextBtnVisiblity(false);
     } 
     else{
         timer.reset();
@@ -98,7 +96,7 @@ function onOptionSelected(selectedOption) {
     
     uihandler.highlightChoice(userAns, isOptionCorrect);
     uihandler.disableOptions();
-    next_btn.classList.add("show"); //show the next button if user selected any option
+    uihandler.updateNextBtnVisiblity(true); //show the next button if user selected any option
 }
 
 // ---- Timer Part ---

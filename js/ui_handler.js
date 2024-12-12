@@ -30,6 +30,7 @@ class UIHandler {
         this.timeCountElem = document.querySelector(".timer .timer_sec");
         this.timeLineElem = document.querySelector("header .time_line");
         this.optionListElem = document.querySelector(".option_list");
+        this.nextBtnElem = document.querySelector("footer .next_btn");
         this.bottomQuesCounterElem = document.querySelector("footer .total_que");
         this.scoreTextElem = document.querySelector(".result_box").querySelector(".score_text");
     }
@@ -62,6 +63,17 @@ class UIHandler {
         else {
             throw new InvalidEnumValueError(screenType, "ScreenType");
         }
+    }
+    
+    updateNextBtnVisiblity(visibile) {
+        /* 
+        updateNextBtnVisiblity function, changes next btn visiblity based on visibile paramater.
+        
+        Params:
+            - visibile: Boolean,
+        */
+        if (visibile) this.nextBtnElem.classList.add("show");
+        else this.nextBtnElem.classList.remove("show");
     }
     
     updateQuestion(questionNumber, questionObj) {
