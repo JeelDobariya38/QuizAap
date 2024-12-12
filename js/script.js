@@ -4,8 +4,6 @@ const exit_btn = document.querySelector(".info_box").querySelector(".buttons .qu
 const continue_btn = document.querySelector(".info_box").querySelector(".buttons .restart");
 const option_list = document.querySelector(".option_list");
 const time_line = document.querySelector("header .time_line");
-const timeText = document.querySelector(".timer .time_left_txt");
-const timeCount = document.querySelector(".timer .timer_sec");
 
 // store current session
 let currSession = undefined;
