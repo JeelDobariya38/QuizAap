@@ -16,6 +16,18 @@ body{
     background: #007bff;
 }
 
+.screen {
+    display: none;
+    pointer-events: none;
+    min-width: 100vw;
+    min-height: 100vh;
+}
+
+.screen.active {
+    display: block;
+    pointer-events: auto;
+}
+
 .home_box,
 .info_box,
 .quiz_box,
@@ -23,19 +35,10 @@ body{
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%) scale(1);
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 
                 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
-
-.home_box.activeHome,
-.info_box.activeInfo,
-.quiz_box.activeQuiz,
-.result_box.activeResult{
-    opacity: 1;
-    z-index: 5;
     pointer-events: auto;
-    transform: translate(-50%, -50%) scale(1);
 }
 
 .start_btn button{
@@ -54,10 +57,6 @@ body{
     width: 540px;
     background: #fff;
     border-radius: 5px;
-    transform: translate(-50%, -50%) scale(0.9);
-    opacity: 0;
-    pointer-events: none;
-    transition: all 0.3s ease;
 }
 
 .info_box .info-title{
@@ -112,10 +111,6 @@ body{
     width: 550px;
     background: #fff;
     border-radius: 5px;
-    transform: translate(-50%, -50%) scale(0.9);
-    opacity: 0;
-    pointer-events: none;
-    transition: all 0.3s ease;
 }
 
 .quiz_box header{
@@ -316,10 +311,6 @@ footer button.show{
     align-items: center;
     flex-direction: column;
     justify-content: center;
-    transform: translate(-50%, -50%) scale(0.9);
-    opacity: 0;
-    pointer-events: none;
-    transition: all 0.3s ease;
 }
 
 .result_box .icon{

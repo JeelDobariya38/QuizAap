@@ -13,10 +13,10 @@ class UIHandler {
     
     constructor() {
         // screens
-        this.homeScreenElem = document.querySelector(".home_box");
-        this.infoScreenElem = document.querySelector(".info_box");
-        this.quizScreenElem = document.querySelector(".quiz_box");
-        this.resultScreenElem = document.querySelector(".result_box");
+        this.homeScreenElem = document.querySelector("#home-screen");
+        this.infoScreenElem = document.querySelector("#info-screen");
+        this.quizScreenElem = document.querySelector("#quiz-screen");
+        this.resultScreenElem = document.querySelector("#result-screen");
         
         // other html
         this.timeTextElem = document.querySelector(".timer .time_left_txt");
@@ -33,22 +33,22 @@ class UIHandler {
             - screenType: Enum[ScreenTypes],
         */
         
-        this.homeScreenElem.classList.remove("activeHome");
-        this.infoScreenElem.classList.remove("activeInfo");
-        this.quizScreenElem.classList.remove("activeQuiz");
-        this.resultScreenElem.classList.remove("activeResult");
+        this.homeScreenElem.classList.remove("active");
+        this.infoScreenElem.classList.remove("active");
+        this.quizScreenElem.classList.remove("active");
+        this.resultScreenElem.classList.remove("active");
         
         if (screenType == ScreenType.HOME) {
-            this.homeScreenElem.classList.add("activeHome");
+            this.homeScreenElem.classList.add("active");
         }
         else if (screenType == ScreenType.INFO) {
-            this.infoScreenElem.classList.add("activeInfo");
+            this.infoScreenElem.classList.add("active");
         } 
         else if (screenType == ScreenType.QUIZ) {
-            this.quizScreenElem.classList.add("activeQuiz");
+            this.quizScreenElem.classList.add("active");
         }
         else if (screenType == ScreenType.RESULT) {
-            this.resultScreenElem.classList.add("activeResult");
+            this.resultScreenElem.classList.add("active");
         }
         else {
             throw new InvalidEnumValueError(screenType, "ScreenType");
