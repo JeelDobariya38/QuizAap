@@ -1,20 +1,3 @@
-/*
-PerformanceVector is emun that is liable to convert performance/percentage/userscore in human readable words form
- 
- - value 100 or above will be count as EXPONENTIAL
- - value 90 or above will be count as GREAT
- - value 80 or above will be count as GOOD, and soon and so forth. to zero.
-*/
-const PerformanceVector = Object.freeze({
-    EXPONENTIAL: 100,
-    EXCELLENT: 90,
-    GREAT: 80,
-    GOOD: 65,
-    BAD: 40,
-    POOR: 20,
-    ZERO: 0,
-});
-
 class SessionContext {
     /*
     SessionContext class is responsible for store session context. 
