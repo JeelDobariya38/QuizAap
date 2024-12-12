@@ -7,7 +7,8 @@ const option_list = document.querySelector(".option_list");
 // store current session
 let currSession = undefined;
 let uihandler = new UIHandler();
-uihandler.toggleScreen(ScreenType.QUIZ);
+uihandler.toggleScreen(ScreenType.HOME);
+
 console.log("Session: ", currSession);
 console.log("UIHandler: ", uihandler);
 
@@ -31,13 +32,10 @@ continue_btn.onclick = ()=>{
     uihandler.updateQuestion(currSession.questionCount, currSession.currentQuestion);
     uihandler.updateQuestionCounter(currSession.questionCount, currSession.totalQuestionCount);
     startTimer(15); //calling startTimer function
-    startTimerLine(0); //calling startTimerLine function
 }
 
 let timeValue =  15;
 let counter;
-let counterLine;
-let widthValue = 0;
 
 const restart_quiz = document.querySelector(".result_box").querySelector(".buttons .restart");
 const quit_quiz = document.querySelector(".result_box").querySelector(".buttons .quit");
@@ -48,15 +46,11 @@ restart_quiz.onclick = ()=>{
     
     uihandler.toggleScreen(ScreenType.QUIZ);
     timeValue = 15;
-    widthValue = 0;
     currSession.changeQuestion();
     uihandler.updateQuestion(currSession.questionCount, currSession.currentQuestion);
     uihandler.updateQuestionCounter(currSession.questionCount, currSession.totalQuestionCount);
     clearInterval(counter); //clear counter
-    clearInterval(counterLine); //clear counterLine
     startTimer(timeValue); //calling startTimer function
-    startTimerLine(widthValue); //calling startTimerLine function
-    timeText.textContent = "Time Left"; //change the text of timeText to Time Left
     next_btn.classList.remove("show"); //hide the next button
 }
 
@@ -75,14 +69,10 @@ next_btn.onclick = ()=>{
         uihandler.updateQuestion(currSession.questionCount, currSession.currentQuestion);
         uihandler.updateQuestionCounter(currSession.questionCount, currSession.totalQuestionCount);
         clearInterval(counter); //clear counter
-        clearInterval(counterLine); //clear counterLine
         startTimer(timeValue); //calling startTimer function
-        startTimerLine(widthValue); //calling startTimerLine function
-        timeText.textContent = "Time Left"; //change the timeText to Time Left
         next_btn.classList.remove("show"); //hide the next button
     } else{
         clearInterval(counter); //clear counter
-        clearInterval(counterLine); //clear counterLine
         
         let performanceVector = currSession.calculateUserPerformance();
         uihandler.toggleScreen(ScreenType.RESULT);
@@ -90,40 +80,22 @@ next_btn.onclick = ()=>{
     }
 }
 
-// creating the new div tags which for icons
-let tickIconTag = '<div class="icon tick"><i class="fas fa-check"></i></div>';
-let crossIconTag = '<div class="icon cross"><i class="fas fa-times"></i></div>';
-
 //if user clicked on option
 function onOptionSelected(selectedOption){
     clearInterval(counter); //clear counter
-    clearInterval(counterLine); //clear counterLine
-    
-    let userAns = selectedOption.textContent; //getting user selected option
-    const allOptions = option_list.children.length; //getting all option items
-    
-    if(currSession.checkAnswer(userAns)){ //if user selected option is equal to array's correct answer
-        currSession.userScore += 1; //upgrading score value with 1
-        selectedOption.classList.add("correct"); //adding green color to correct selected option
-        selectedOption.insertAdjacentHTML("beforeend", tickIconTag); //adding tick icon to correct selected option
-        console.log("Correct Answer");
-        console.log("Your correct answers = " + currSession.userScore);
-    }else{
-        selectedOption.classList.add("incorrect"); //adding red color to correct selected option
-        selectedOption.insertAdjacentHTML("beforeend", crossIconTag); //adding cross icon to correct selected option
-        console.log("Wrong Answer");
 
-        for(i=0; i < allOptions; i++){
-            if(option_list.children[i].textContent == currSession.currentQuestion.answer){ //if there is an option which is matched to an array answer 
-                option_list.children[i].setAttribute("class", "option correct"); //adding green color to matched option
-                option_list.children[i].insertAdjacentHTML("beforeend", tickIconTag); //adding tick icon to matched option
-                console.log("Auto selected correct answer.");
-            }
-        }
+    let userAns = selectedOption.textContent;
+    let isOptionCorrect = currSession.checkAnswer(userAns);
+    
+    if(isOptionCorrect) {
+        currSession.userScore += 1;
     }
-    for(i=0; i < allOptions; i++){
-        option_list.children[i].classList.add("disabled"); //once user select an option then disabled all options
+    else {
+        uihandler.highlightChoice(currSession.currentQuestion.answer, true);
     }
+    
+    uihandler.highlightChoice(userAns, isOptionCorrect);
+    uihandler.disableOptions();
     next_btn.classList.add("show"); //show the next button if user selected any option
 }
 
@@ -136,20 +108,8 @@ function startTimer(time){
         
         if(time < 0){ //if timer is less than 0
             clearInterval(counter); //clear counter
-            
-            const allOptions = option_list.children.length; //getting all option items
-            for(i=0; i < allOptions; i++){
-                if(option_list.children[i].textContent == currSession.currentQuestion.answer){ //if there is an option which is matched to an array answer
-                    option_list.children[i].setAttribute("class", "option correct"); //adding green color to matched option
-                    option_list.children[i].insertAdjacentHTML("beforeend", tickIconTag); //adding tick icon to matched option
-                    console.log("Time Off: Auto selected correct answer.");
-                }
-            }
-            
-            for(i=0; i < allOptions; i++){
-                option_list.children[i].classList.add("disabled"); //once user select an option then disabled all options
-            }
-            
+            uihandler.highlightChoice(currSession.currentQuestion.answer, true);
+            uihandler.disableOptions();
             next_btn.classList.add("show"); //show the next button if user selected any option
         }
     }
@@ -157,10 +117,10 @@ function startTimer(time){
 
 let timer = new Timer(15, 
     (newTime) => {
-        console.log("Time Update: " + newTime)
-        uihandler.updateTimeLine(newTime, 15)
+        console.log("Time Update: " + newTime);
+        uihandler.updateTimeLine(newTime, 15);
     }, 
     (newTime) => {
-        console.log("Timer Over: " + newTime)
+        console.log("Timer Over: " + newTime);
     });
 timer.start();

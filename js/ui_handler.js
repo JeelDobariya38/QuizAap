@@ -6,12 +6,16 @@ class UIHandler {
         - toogleScreen(): for switching screens on ui.
         - updateQuestion(): for updating curr question with new question on quiz ui.
         - updateQuestionCounter(): for updating question count on quiz ui.
+        - highlightChoice(): for highlighting option on quiz ui.
+        - disableOptions(): for disabling the option on quiz ui.
         - updateTimeLeftText(): for updating timer/time-left text on quiz ui.
         - resetTimeLeftText(): for reseting timer/time-left text on quiz ui.
         - updateTimeLine(): for updateing the timeline on quiz ui.
         - resetTimeLine(): for reseting the timeline on quiz ui.
         - updateScoreText(): for updating score text on result ui.
     */
+    static tickIconTagHTML = '<div class="icon tick"><i class="fas fa-check"></i></div>';
+    static crossIconTagHTML = '<div class="icon cross"><i class="fas fa-times"></i></div>';
     
     constructor() {
         // screens
@@ -21,9 +25,11 @@ class UIHandler {
         this.resultScreenElem = document.querySelector("#result-screen");
         
         // other html
+        this.options = [];
         this.timeTextElem = document.querySelector(".timer .time_left_txt");
         this.timeCountElem = document.querySelector(".timer .timer_sec");
         this.timeLine = document.querySelector("header .time_line");
+        this.optionListElem = document.querySelector(".option_list");
         this.bottomQuesCounterElem = document.querySelector("footer .total_que");
         this.scoreTextElem = document.querySelector(".result_box").querySelector(".score_text");
     }
@@ -78,14 +84,14 @@ class UIHandler {
         + '<div class="option"><span>'+ questionObj.options[2] +'</span></div>'
         + '<div class="option"><span>'+ questionObj.options[3] +'</span></div>';
         que_text.innerHTML = que_tag;
-        option_list.innerHTML = option_tag;
+        this.optionListElem.innerHTML = option_tag;
         
-        const option = option_list.querySelectorAll(".option");
+        this.options = this.optionListElem.querySelectorAll(".option");
 
-        // set onclick attribute to all available options
-        for(let i=0; i < option.length; i++){
-            option[i].setAttribute("onclick", "onOptionSelected(this)");
-        }
+        this.options.forEach((option) => {
+            console.log(option);
+            option.setAttribute("onclick", "onOptionSelected(this)");
+        });
     }
     
     updateQuestionCounter(questionCounter, noOfQuestion) {
@@ -100,6 +106,36 @@ class UIHandler {
         
         let totalQueCounTag = '<span><p>'+ questionCounter +'</p> of <p>'+ noOfQuestion +'</p> Questions</span>';
         this.bottomQuesCounterElem.innerHTML = totalQueCounTag;
+    }
+    
+    highlightChoice(choice, isChoiceCorrect) {
+        /*
+        highlightChoice function, highlights correct/incorrect answer on quiz ui.
+        
+        Params:
+            - userChoice: String
+            - isChoiceCorrect: Boolean
+        */
+        
+        this.options.forEach((option) => {
+            if (option.textContent == choice) {
+                if (isChoiceCorrect) {
+                    option.classList.add("correct");
+                    option.insertAdjacentHTML("beforeend", UIHandler.tickIconTagHTML);
+                } 
+                else {
+                    option.classList.add("incorrect");
+                    option.insertAdjacentHTML("beforeend", UIHandler.crossIconTagHTML);
+                }
+            }
+        });
+    }
+    
+    disableOptions() {
+        /*
+        disableOptions function, is used to disable the option on quiz ui.
+        */
+        this.options.forEach(option => option.classList.add("disabled"));
     }
     
     updateTimeLeftText(timeLeft) {
