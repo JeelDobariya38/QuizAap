@@ -34,12 +34,12 @@ class Timer {
         }
         
         this.updateTimeTickInterval = setInterval(() => {
-            this.time += 1;
-            this.onTimeTick(this.time);
-            
             if (this.time == this.timeLimit) {
                 clearInterval(this.updateTimeTickInterval);
                 this.onTimeOut(this.time);
+            } else {
+                this.time += 1;
+                this.onTimeTick(this.time);
             }
         }, Timer.SECOND);
     }
@@ -58,7 +58,7 @@ class Timer {
 }
 
 
-let timer = new Timer(3, 
+let timer = new Timer(15, 
     (newTime) => {
         console.log("Time Update: " + newTime)
     }, 
