@@ -20,10 +20,10 @@ ScreenType is emun that is liable,
 to represent all the screens/views types/layouts in entire website.
 */
 const ScreenType = Object.freeze({
-    BLANK: 0,
-    INFO: 1,
-    QUIZ: 2,
-    RESULT: 3
+    HOME: 1,
+    INFO: 2,
+    QUIZ: 3,
+    RESULT: 4
 });
 
 /*

@@ -10,9 +10,9 @@ const timeCount = document.querySelector(".timer .timer_sec");
 // store current session
 let currSession = undefined;
 let uihandler = new UIHandler();
+uihandler.toggleScreen(ScreenType.HOME);
 console.log("Session: ", currSession);
 console.log("UIHandler: ", uihandler);
-
 
 // if startQuiz button clicked
 start_btn.onclick = ()=>{
@@ -21,7 +21,7 @@ start_btn.onclick = ()=>{
 
 // if exitQuiz button clicked
 exit_btn.onclick = ()=>{
-    uihandler.toggleScreen(ScreenType.BLANK);
+    uihandler.toggleScreen(ScreenType.HOME);
 }
 
 // if continueQuiz button clicked

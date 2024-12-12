@@ -13,6 +13,7 @@ class UIHandler {
     
     constructor() {
         // screens
+        this.homeBoxElem = document.querySelector(".home_box");
         this.infoBoxElem = document.querySelector(".info_box");
         this.quizBoxElem = document.querySelector(".quiz_box");
         this.resultBoxElem = document.querySelector(".result_box");
@@ -32,11 +33,15 @@ class UIHandler {
             - screenType: Enum[ScreenTypes],
         */
         
+        this.homeBoxElem.classList.remove("activeHome");
         this.infoBoxElem.classList.remove("activeInfo");
         this.quizBoxElem.classList.remove("activeQuiz");
         this.resultBoxElem.classList.remove("activeResult");
         
-        if (screenType == ScreenType.INFO) {
+        if (screenType == ScreenType.HOME) {
+            this.homeBoxElem.classList.add("activeHome");
+        }
+        else if (screenType == ScreenType.INFO) {
             this.infoBoxElem.classList.add("activeInfo");
         } 
         else if (screenType == ScreenType.QUIZ) {
