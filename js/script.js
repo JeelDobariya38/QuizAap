@@ -3,12 +3,11 @@ const start_btn = document.querySelector(".start_btn button");
 const exit_btn = document.querySelector(".info_box").querySelector(".buttons .quit");
 const continue_btn = document.querySelector(".info_box").querySelector(".buttons .restart");
 const option_list = document.querySelector(".option_list");
-const time_line = document.querySelector("header .time_line");
 
 // store current session
 let currSession = undefined;
 let uihandler = new UIHandler();
-uihandler.toggleScreen(ScreenType.HOME);
+uihandler.toggleScreen(ScreenType.QUIZ);
 console.log("Session: ", currSession);
 console.log("UIHandler: ", uihandler);
 
@@ -156,13 +155,12 @@ function startTimer(time){
     }
 }
 
-function startTimerLine(time){
-    counterLine = setInterval(timer, 29);
-    function timer(){
-        time += 1; //upgrading time value with 1
-        time_line.style.width = time + "px"; //increasing width of time_line with px by time value
-        if(time > 549){ //if time value is greater than 549
-            clearInterval(counterLine); //clear counterLine
-        }
-    }
-}
+let timer = new Timer(15, 
+    (newTime) => {
+        console.log("Time Update: " + newTime)
+        uihandler.updateTimeLine(newTime, 15)
+    }, 
+    (newTime) => {
+        console.log("Timer Over: " + newTime)
+    });
+timer.start();

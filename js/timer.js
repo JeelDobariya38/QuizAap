@@ -56,13 +56,3 @@ class Timer {
         this.time = 0;
     }
 }
-
-
-let timer = new Timer(15, 
-    (newTime) => {
-        console.log("Time Update: " + newTime)
-    }, 
-    (newTime) => {
-        console.log("Timer Over: " + newTime)
-    });
-timer.start();

@@ -8,6 +8,8 @@ class UIHandler {
         - updateQuestionCounter(): for updating question count on quiz ui.
         - updateTimeLeftText(): for updating timer/time-left text on quiz ui.
         - resetTimeLeftText(): for reseting timer/time-left text on quiz ui.
+        - updateTimeLine(): for updateing the timeline on quiz ui.
+        - resetTimeLine(): for reseting the timeline on quiz ui.
         - updateScoreText(): for updating score text on result ui.
     */
     
@@ -21,6 +23,7 @@ class UIHandler {
         // other html
         this.timeTextElem = document.querySelector(".timer .time_left_txt");
         this.timeCountElem = document.querySelector(".timer .timer_sec");
+        this.timeLine = document.querySelector("header .time_line");
         this.bottomQuesCounterElem = document.querySelector("footer .total_que");
         this.scoreTextElem = document.querySelector(".result_box").querySelector(".score_text");
     }
@@ -125,6 +128,25 @@ class UIHandler {
         */
         this.timeTextElem.textContent = "Time Left";
         this.timeCountElem.textContent = timeLimit;
+    }
+    
+    updateTimeLine(currTime, timeLimit) {
+        /*
+        updateTimeLine function, update the timeline element on quiz screen.
+        
+        Params:
+            - currTime: Number,
+            - timeLimit: Number,
+        */
+        let widthVector = 1 - (currTime/timeLimit);
+        this.timeLine.style.width = (widthVector*100) + "%";
+    }
+    
+    resetTimeLine() {
+        /*
+        resetTimeLine function, resets the timeline element on quiz screen.
+        */
+        this.timeLine.style.width = 100 + "%";
     }
     
     updateScoreText(userPerformanceVector, userScore, noOfQuestion) {
