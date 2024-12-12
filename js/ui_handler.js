@@ -4,15 +4,22 @@ class UIHandler {
     
     Methods:
         - toogleScreen(): for switching screens on ui.
-        - updateQuestion(): for updating curr question with new question on ui.
-        - updateQuestionCounter(): for updating question count on ui.
-        - updateScoreText(): for updating score text on ui.
+        - updateQuestion(): for updating curr question with new question on quiz ui.
+        - updateQuestionCounter(): for updating question count on quiz ui.
+        - updateTimeLeftText(): for updating timer/time-left text on quiz ui.
+        - resetTimeLeftText(): for reseting timer/time-left text on quiz ui.
+        - updateScoreText(): for updating score text on result ui.
     */
     
     constructor() {
+        // screens
         this.infoBoxElem = document.querySelector(".info_box");
         this.quizBoxElem = document.querySelector(".quiz_box");
         this.resultBoxElem = document.querySelector(".result_box");
+        
+        // other html
+        this.timeTextElem = document.querySelector(".timer .time_left_txt");
+        this.timeCountElem = document.querySelector(".timer .timer_sec");
         this.bottomQuesCounterElem = document.querySelector("footer .total_que");
         this.scoreTextElem = document.querySelector(".result_box").querySelector(".score_text");
     }
@@ -85,6 +92,34 @@ class UIHandler {
         
         let totalQueCounTag = '<span><p>'+ questionCounter +'</p> of <p>'+ noOfQuestion +'</p> Questions</span>';
         this.bottomQuesCounterElem.innerHTML = totalQueCounTag;
+    }
+    
+    updateTimeLeftText(timeLeft) {
+        /*
+        updateTimeLeftText function, update the time left text on quiz screen.
+        
+        Params:
+            - timeLeft: Number,
+        */
+        
+        if (timeLeft < 0) {
+            this.timeTextElem.textContent = "Time Off";
+            this.timeCountElem.textContent = "---";
+        }
+        else {
+            this.timeCountElem.textContent = timeLeft.toString();
+        }
+    }
+    
+    resetTimeLeftText(timeLimit) {
+        /*
+        resetTimeLeftText function, resets the time left text on quiz screen.
+        
+        Params:
+            - timeLeft: Number,
+        */
+        this.timeTextElem.textContent = "Time Left";
+        this.timeCountElem.textContent = timeLimit;
     }
     
     updateScoreText(userPerformanceVector, userScore, noOfQuestion) {

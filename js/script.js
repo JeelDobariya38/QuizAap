@@ -30,6 +30,7 @@ continue_btn.onclick = ()=>{
     
     uihandler.toggleScreen(ScreenType.QUIZ);
     currSession.changeQuestion();
+    uihandler.resetTimeLeftText(timer.timeLimit);
     uihandler.updateQuestion(currSession.questionCount, currSession.currentQuestion);
     uihandler.updateQuestionCounter(currSession.questionCount, currSession.totalQuestionCount);
     startTimer(15); //calling startTimer function
@@ -73,6 +74,7 @@ const next_btn = document.querySelector("footer .next_btn");
 next_btn.onclick = ()=>{
     if(currSession.questionCount < currSession.totalQuestionCount){ //if question count is less than total question length
         currSession.changeQuestion();
+        uihandler.resetTimeLeftText(timer.timeLimit);
         uihandler.updateQuestion(currSession.questionCount, currSession.currentQuestion);
         uihandler.updateQuestionCounter(currSession.questionCount, currSession.totalQuestionCount);
         clearInterval(counter); //clear counter
@@ -130,16 +132,14 @@ function onOptionSelected(selectedOption){
 
 function startTimer(time){
     counter = setInterval(timer, 1000);
+    
     function timer(){
-        timeCount.textContent = time; //changing the value of timeCount with time value
         time--; //decrement the time value
-        if(time < 9){ //if timer is less than 9
-            let addZero = timeCount.textContent; 
-            timeCount.textContent = "0" + addZero; //add a 0 before time value
-        }
+        uihandler.updateTimeLeftText(time);
+        
         if(time < 0){ //if timer is less than 0
             clearInterval(counter); //clear counter
-            timeText.textContent = "Time Off"; //change the time text to time off
+            
             const allOptions = option_list.children.length; //getting all option items
             for(i=0; i < allOptions; i++){
                 if(option_list.children[i].textContent == currSession.currentQuestion.answer){ //if there is an option which is matched to an array answer
@@ -148,9 +148,11 @@ function startTimer(time){
                     console.log("Time Off: Auto selected correct answer.");
                 }
             }
+            
             for(i=0; i < allOptions; i++){
                 option_list.children[i].classList.add("disabled"); //once user select an option then disabled all options
             }
+            
             next_btn.classList.add("show"); //show the next button if user selected any option
         }
     }
