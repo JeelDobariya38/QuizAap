@@ -28,7 +28,7 @@ class UIHandler {
         this.options = [];
         this.timeTextElem = document.querySelector(".timer .time_left_txt");
         this.timeCountElem = document.querySelector(".timer .timer_sec");
-        this.timeLine = document.querySelector("header .time_line");
+        this.timeLineElem = document.querySelector("header .time_line");
         this.optionListElem = document.querySelector(".option_list");
         this.bottomQuesCounterElem = document.querySelector("footer .total_que");
         this.scoreTextElem = document.querySelector(".result_box").querySelector(".score_text");
@@ -175,14 +175,14 @@ class UIHandler {
             - timeLimit: Number,
         */
         let widthVector = 1 - (currTime/timeLimit);
-        this.timeLine.style.width = (widthVector*100) + "%";
+        this.timeLineElem.style.width = (widthVector*100) + "%";
     }
     
     resetTimeLine() {
         /*
         resetTimeLine function, resets the timeline element on quiz screen.
         */
-        this.timeLine.style.width = 100 + "%";
+        this.timeLineElem.style.width = 100 + "%";
     }
     
     updateScoreText(userPerformanceVector, userScore, noOfQuestion) {
