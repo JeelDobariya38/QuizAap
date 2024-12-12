@@ -13,10 +13,10 @@ class UIHandler {
     
     constructor() {
         // screens
-        this.homeBoxElem = document.querySelector(".home_box");
-        this.infoBoxElem = document.querySelector(".info_box");
-        this.quizBoxElem = document.querySelector(".quiz_box");
-        this.resultBoxElem = document.querySelector(".result_box");
+        this.homeScreenElem = document.querySelector(".home_box");
+        this.infoScreenElem = document.querySelector(".info_box");
+        this.quizScreenElem = document.querySelector(".quiz_box");
+        this.resultScreenElem = document.querySelector(".result_box");
         
         // other html
         this.timeTextElem = document.querySelector(".timer .time_left_txt");
@@ -33,22 +33,22 @@ class UIHandler {
             - screenType: Enum[ScreenTypes],
         */
         
-        this.homeBoxElem.classList.remove("activeHome");
-        this.infoBoxElem.classList.remove("activeInfo");
-        this.quizBoxElem.classList.remove("activeQuiz");
-        this.resultBoxElem.classList.remove("activeResult");
+        this.homeScreenElem.classList.remove("activeHome");
+        this.infoScreenElem.classList.remove("activeInfo");
+        this.quizScreenElem.classList.remove("activeQuiz");
+        this.resultScreenElem.classList.remove("activeResult");
         
         if (screenType == ScreenType.HOME) {
-            this.homeBoxElem.classList.add("activeHome");
+            this.homeScreenElem.classList.add("activeHome");
         }
         else if (screenType == ScreenType.INFO) {
-            this.infoBoxElem.classList.add("activeInfo");
+            this.infoScreenElem.classList.add("activeInfo");
         } 
         else if (screenType == ScreenType.QUIZ) {
-            this.quizBoxElem.classList.add("activeQuiz");
+            this.quizScreenElem.classList.add("activeQuiz");
         }
         else if (screenType == ScreenType.RESULT) {
-            this.resultBoxElem.classList.add("activeResult");
+            this.resultScreenElem.classList.add("activeResult");
         }
         else {
             throw new InvalidEnumValueError(screenType, "ScreenType");
