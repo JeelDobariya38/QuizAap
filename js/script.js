@@ -28,13 +28,13 @@ restart_quiz.onclick = () => {
 
 // if quitQuiz button clicked
 quit_quiz.onclick = () => {
-    controller.reloadApp(); //reload the current window
+    controller.reloadApp();
 }
 
 
 // if Next Que button clicked
 next_btn.onclick = () => {
-    if(controller.currSession.questionCount < controller.currSession.totalQuestionCount){ //if question count is less than total question length
+    if(controller.currSession.questionCount < controller.currSession.totalQuestionCount){
         controller.nextQuestion();
     } 
     else{
@@ -49,14 +49,5 @@ function onOptionSelected(selectedOption) {
 }
 
 // ---- Contoller Part ---
-const controller = new Controller(new Timer(15, 
-                                    (newTime, timeLimit) => {
-                                        controller.uihandler.updateTimeLeftText(timeLimit - newTime);
-                                        controller.uihandler.updateTimeLine(newTime, timeLimit);
-                                    }, 
-                                    (newTime) => {
-                                        controller.uihandler.highlightChoice(currSession.currentQuestion.answer, true);
-                                        controller.uihandler.disableOptions();
-                                        controller.next_btn.classList.add("show");
-                                    }));
+const controller = new Controller();
 controller.startApp();

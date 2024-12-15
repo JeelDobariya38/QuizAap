@@ -2,12 +2,31 @@ class Controller {
     /*
     Controller class is responsible for maintaing & controlling the flow of application.
     all event listiner are defined here.
+    
+    Methods:
+        - startApp(): for satring the app.
+        - reloadApp(): for reloading the app.
+        - goToHomepage(): for going to homepage.
+        - displayQuizInfo(): for display quiz info.
+        - startQuiz(): for starting a quiz app.
+        - nextQuestion(): for loading a next question.
+        - answerQuestion(): for answering question.
+        - submitQuiz(): for submiting quiz.
     */
     
-    constructor(timer) {
+    constructor() {
         this.currSession = undefined;
-        this.timer = timer;
         this.uihandler = new UIHandler();
+        this.timer = new Timer(15, 
+                            (newTime, timeLimit) => {
+                                controller.uihandler.updateTimeLeftText(timeLimit - newTime);
+                                controller.uihandler.updateTimeLine(newTime, timeLimit);
+                            }, 
+                            (newTime) => {
+                                controller.uihandler.highlightChoice(currSession.currentQuestion.answer, true);
+                                controller.uihandler.disableOptions();
+                                controller.next_btn.classList.add("show");
+                            });
     }
     
     startApp() {
