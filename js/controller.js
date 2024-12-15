@@ -4,6 +4,7 @@ class Controller {
     all event listiner are defined here.
     
     Methods:
+        - setupEventListener(): for setup eventlistener.
         - startApp(): for satring the app.
         - reloadApp(): for reloading the app.
         - goToHomepage(): for going to homepage.
@@ -18,6 +19,34 @@ class Controller {
         this.currSession = undefined;
         this.uihandler = new UIHandler();
         this.timer = new Timer(15, this.onTimerTickUpdate, this.onTimerFinish);
+    }
+    
+    setupEventListener() {
+        /*
+        for setup up onclick event listiner.
+        */
+        
+        const startBtn = document.querySelector(".start_btn button");
+        const exitBtn = document.querySelector(".info_box").querySelector(".buttons .quit");
+        const continueBtn = document.querySelector(".info_box").querySelector(".buttons .restart");
+        const restartQuizBtn = document.querySelector(".result_box").querySelector(".buttons .restart");
+        const quitQuizBtn = document.querySelector(".result_box").querySelector(".buttons .quit");
+        const nextQuestionBtn = document.querySelector("footer .next_btn");
+
+
+        startBtn.onclick = () => this.displayQuizInfo();
+        exitBtn.onclick = () => this.goToHomepage();
+        continueBtn.onclick = () => this.startQuiz();
+        restartQuizBtn.onclick = () => this.startQuiz();
+        quitQuizBtn.onclick = () => this.reloadApp();
+        nextQuestionBtn.onclick = () => {
+            if(this.currSession.hasNextQuestion()){
+                this.nextQuestion();
+            } 
+            else{
+                this.submitQuiz();
+            }
+        }
     }
     
     startApp() {
