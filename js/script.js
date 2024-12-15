@@ -1,39 +1,18 @@
 //selecting all required elements
-const start_btn = document.querySelector(".start_btn button");
-const exit_btn = document.querySelector(".info_box").querySelector(".buttons .quit");
-const continue_btn = document.querySelector(".info_box").querySelector(".buttons .restart");
-const restart_quiz = document.querySelector(".result_box").querySelector(".buttons .restart");
-const quit_quiz = document.querySelector(".result_box").querySelector(".buttons .quit");
-const next_btn = document.querySelector("footer .next_btn");
-
-// if startQuiz button clicked
-start_btn.onclick = () => {
-    controller.displayQuizInfo();
-}
-
-// if exitQuiz button clicked
-exit_btn.onclick = () => {
-    controller.goToHomepage();
-}
-
-// if continueQuiz button clicked
-continue_btn.onclick = () => { 
-    controller.startQuiz();
-}
-
-// if restartQuiz button clicked
-restart_quiz.onclick = () => { 
-    controller.startQuiz();
-}
-
-// if quitQuiz button clicked
-quit_quiz.onclick = () => {
-    controller.reloadApp();
-}
+const startBtn = document.querySelector(".start_btn button");
+const exitBtn = document.querySelector(".info_box").querySelector(".buttons .quit");
+const continueBtn = document.querySelector(".info_box").querySelector(".buttons .restart");
+const restartQuizBtn = document.querySelector(".result_box").querySelector(".buttons .restart");
+const quitQuizBtn = document.querySelector(".result_box").querySelector(".buttons .quit");
+const nextQuestionBtn = document.querySelector("footer .next_btn");
 
 
-// if Next Que button clicked
-next_btn.onclick = () => {
+startBtn.onclick = () => controller.displayQuizInfo();
+exitBtn.onclick = () => controller.goToHomepage();
+continueBtn.onclick = () => controller.startQuiz();
+restartQuizBtn.onclick = () => controller.startQuiz();
+quitQuizBtn.onclick = () => controller.reloadApp();
+nextQuestionBtn.onclick = () => {
     if(controller.currSession.hasNextQuestion()){
         controller.nextQuestion();
     } 
@@ -45,7 +24,7 @@ next_btn.onclick = () => {
 //if user clicked on option
 function onOptionSelected(selectedOption) {
     controller.timer.interupt();
-    answerQuestion(selectedOption.textContent);
+    controller.answerQuestion(selectedOption.textContent);
 }
 
 // ----- Contoller Part -----
