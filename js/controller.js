@@ -17,16 +17,7 @@ class Controller {
     constructor() {
         this.currSession = undefined;
         this.uihandler = new UIHandler();
-        this.timer = new Timer(15, 
-                            (newTime, timeLimit) => {
-                                controller.uihandler.updateTimeLeftText(timeLimit - newTime);
-                                controller.uihandler.updateTimeLine(newTime, timeLimit);
-                            }, 
-                            (newTime) => {
-                                controller.uihandler.highlightChoice(currSession.currentQuestion.answer, true);
-                                controller.uihandler.disableOptions();
-                                controller.next_btn.classList.add("show");
-                            });
+        this.timer = new Timer(15, this.onTimerTickUpdate, this.onTimerFinish);
     }
     
     startApp() {
@@ -117,5 +108,22 @@ class Controller {
         let performanceVector = this.currSession.calculateUserPerformance();
         this.uihandler.toggleScreen(ScreenType.RESULT);
         this.uihandler.updateScoreText(performanceVector, this.currSession.userScore, this.currSession.totalQuestionCount);
+    }
+    
+    onTimerTickUpdate(newTime, timeLimit) {
+        /*
+        update the ui when timer ticks.
+        */
+        this.uihandler.updateTimeLeftText(timeLimit - newTime);
+        this.uihandler.updateTimeLine(newTime, timeLimit);
+    }
+    
+    onTimerFinish(newTime) {
+        /*
+        update the ui when timer finishs.
+        */
+        this.uihandler.highlightChoice(this.currSession.currentQuestion.answer, true);
+        this.uihandler.disableOptions();
+        this.uihandler.updateNextBtnVisiblity(true);
     }
 }
