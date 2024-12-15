@@ -14,11 +14,23 @@ class SessionContext {
         this.totalQuestionCount = questions.length;
         this.currentQuestion = undefined;
     }
+    
+    hasNextQuestion() {
+        /*
+        hasNextQuestion function is use to check wether there is next question to be asken or not.
+        
+        Returns:
+            - Boolean
+        */
+        
+        return this.questionCount < this.totalQuestionCount
+    }
       
     changeQuestion() {
         /*
         changeQuestion function is use to change question.
         */
+        
         this.questionCount += 1;
         this.currentQuestion = questions[this.questionCount-1];
     }
@@ -33,6 +45,7 @@ class SessionContext {
         Returns:
             - Boolean
         */
+        
         return this.currentQuestion.answer == userAns;
     }
     

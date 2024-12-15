@@ -34,7 +34,7 @@ quit_quiz.onclick = () => {
 
 // if Next Que button clicked
 next_btn.onclick = () => {
-    if(controller.currSession.questionCount < controller.currSession.totalQuestionCount){
+    if(controller.currSession.hasNextQuestion()){
         controller.nextQuestion();
     } 
     else{
@@ -48,6 +48,6 @@ function onOptionSelected(selectedOption) {
     answerQuestion(selectedOption.textContent);
 }
 
-// ---- Contoller Part ---
+// ----- Contoller Part -----
 const controller = new Controller();
 controller.startApp();
