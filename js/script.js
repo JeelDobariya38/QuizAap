@@ -6,107 +6,70 @@ const restart_quiz = document.querySelector(".result_box").querySelector(".butto
 const quit_quiz = document.querySelector(".result_box").querySelector(".buttons .quit");
 const next_btn = document.querySelector("footer .next_btn");
 
-// store current session
-let timer = undefined;
-let currSession = undefined;
-let uihandler = new UIHandler();
-uihandler.toggleScreen(ScreenType.HOME);
-
-console.log("Session: ", currSession);
-console.log("UIHandler: ", uihandler);
-
 // if startQuiz button clicked
 start_btn.onclick = () => {
-    uihandler.toggleScreen(ScreenType.INFO);
+    controller.displayQuizInfo();
 }
 
 // if exitQuiz button clicked
 exit_btn.onclick = () => {
-    uihandler.toggleScreen(ScreenType.HOME);
+    controller.goToHomepage();
 }
 
 // if continueQuiz button clicked
-continue_btn.onclick = () => {
-    currSession = new SessionContext(); //start a new session
-    
-    uihandler.toggleScreen(ScreenType.QUIZ);
-    currSession.changeQuestion();
-    uihandler.resetTimeLine();
-    uihandler.resetTimeLeftText(timer.timeLimit);
-    uihandler.updateQuestion(currSession.questionCount, currSession.currentQuestion);
-    uihandler.updateQuestionCounter(currSession.questionCount, currSession.totalQuestionCount);
-    timer.reset();
-    timer.start();
+continue_btn.onclick = () => { 
+    controller.startQuiz();
 }
 
 // if restartQuiz button clicked
-restart_quiz.onclick = () => {
-    currSession = new SessionContext();
-    
-    uihandler.toggleScreen(ScreenType.QUIZ);
-    currSession.changeQuestion();
-    uihandler.resetTimeLine();
-    uihandler.resetTimeLeftText(timer.timeLimit);
-    uihandler.updateQuestion(currSession.questionCount, currSession.currentQuestion);
-    uihandler.updateQuestionCounter(currSession.questionCount, currSession.totalQuestionCount);
-    timer.reset();
-    timer.start();
-    uihandler.updateNextBtnVisiblity(false); //hide the next button
+restart_quiz.onclick = () => { 
+    controller.startQuiz();
 }
 
 // if quitQuiz button clicked
 quit_quiz.onclick = () => {
-    window.location.reload(); //reload the current window
+    controller.reloadApp(); //reload the current window
 }
 
 
 // if Next Que button clicked
 next_btn.onclick = () => {
-    if(currSession.questionCount < currSession.totalQuestionCount){ //if question count is less than total question length
-        currSession.changeQuestion();
-        uihandler.resetTimeLine();
-        uihandler.resetTimeLeftText(timer.timeLimit);
-        uihandler.updateQuestion(currSession.questionCount, currSession.currentQuestion);
-        uihandler.updateQuestionCounter(currSession.questionCount, currSession.totalQuestionCount);
-        timer.reset();
-        timer.start();
-        uihandler.updateNextBtnVisiblity(false);
+    if(controller.currSession.questionCount < controller.currSession.totalQuestionCount){ //if question count is less than total question length
+        controller.nextQuestion();
     } 
     else{
-        timer.reset();
-        let performanceVector = currSession.calculateUserPerformance();
-        uihandler.toggleScreen(ScreenType.RESULT);
-        uihandler.updateScoreText(performanceVector, currSession.userScore, currSession.totalQuestionCount);
+        controller.submitQuiz();
     }
 }
 
 //if user clicked on option
 function onOptionSelected(selectedOption) {
-    timer.interupt();
+    controller.timer.interupt();
 
     let userAns = selectedOption.textContent;
-    let isOptionCorrect = currSession.checkAnswer(userAns);
+    let isOptionCorrect = controller.currSession.checkAnswer(userAns);
     
     if(isOptionCorrect) {
-        currSession.userScore += 1;
+        controller.currSession.userScore += 1;
     }
     else {
-        uihandler.highlightChoice(currSession.currentQuestion.answer, true);
+        controller.uihandler.highlightChoice(controller.currSession.currentQuestion.answer, true);
     }
     
-    uihandler.highlightChoice(userAns, isOptionCorrect);
-    uihandler.disableOptions();
-    uihandler.updateNextBtnVisiblity(true); //show the next button if user selected any option
+    controller.uihandler.highlightChoice(userAns, isOptionCorrect);
+    controller.uihandler.disableOptions();
+    controller.uihandler.updateNextBtnVisiblity(true); //show the next button if user selected any option
 }
 
-// ---- Timer Part ---
-timer = new Timer(15, 
-            (newTime, timeLimit) => {
-                uihandler.updateTimeLeftText(timeLimit - newTime);
-                uihandler.updateTimeLine(newTime, timeLimit);
-            }, 
-            (newTime) => {
-                uihandler.highlightChoice(currSession.currentQuestion.answer, true);
-                uihandler.disableOptions();
-                next_btn.classList.add("show");
-            });
+// ---- Contoller Part ---
+const controller = new Controller(new Timer(15, 
+                                    (newTime, timeLimit) => {
+                                        controller.uihandler.updateTimeLeftText(timeLimit - newTime);
+                                        controller.uihandler.updateTimeLine(newTime, timeLimit);
+                                    }, 
+                                    (newTime) => {
+                                        controller.uihandler.highlightChoice(currSession.currentQuestion.answer, true);
+                                        controller.uihandler.disableOptions();
+                                        controller.next_btn.classList.add("show");
+                                    }));
+controller.startApp();
