@@ -45,20 +45,7 @@ next_btn.onclick = () => {
 //if user clicked on option
 function onOptionSelected(selectedOption) {
     controller.timer.interupt();
-
-    let userAns = selectedOption.textContent;
-    let isOptionCorrect = controller.currSession.checkAnswer(userAns);
-    
-    if(isOptionCorrect) {
-        controller.currSession.userScore += 1;
-    }
-    else {
-        controller.uihandler.highlightChoice(controller.currSession.currentQuestion.answer, true);
-    }
-    
-    controller.uihandler.highlightChoice(userAns, isOptionCorrect);
-    controller.uihandler.disableOptions();
-    controller.uihandler.updateNextBtnVisiblity(true); //show the next button if user selected any option
+    answerQuestion(selectedOption.textContent);
 }
 
 // ---- Contoller Part ---

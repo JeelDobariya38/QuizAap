@@ -70,6 +70,25 @@ class Controller {
         this.timer.start();
     }
     
+    answerQuestion(userAns) {
+        /*
+        answers the question & update the ui in response to user answer.
+        */
+        
+        let isOptionCorrect = this.currSession.checkAnswer(userAns);
+        
+        if(isOptionCorrect) {
+            this.currSession.userScore += 1;
+        }
+        else {
+            this.uihandler.highlightChoice(this.currSession.currentQuestion.answer, true);
+        }
+        
+        this.uihandler.highlightChoice(userAns, isOptionCorrect);
+        this.uihandler.disableOptions();
+        this.uihandler.updateNextBtnVisiblity(true);
+    }
+    
     submitQuiz() {
         /*
         display a result screen with user stats. also, reset timer for next time.
