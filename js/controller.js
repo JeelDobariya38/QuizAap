@@ -174,7 +174,7 @@ class Controller {
         Controller.uihandler.updateNextBtnVisiblity(true);
     }
     
-    static handleOptionClickedEvent(clickedOption) {
+    static handleOptionClickEvent(clickedOption) {
         /*
         handle the option click event & update the ui accodringly.
         */

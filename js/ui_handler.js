@@ -13,7 +13,11 @@ class UIHandler {
         - updateTimeLine(): for updateing the timeline on quiz ui.
         - resetTimeLine(): for reseting the timeline on quiz ui.
         - updateScoreText(): for updating score text on result ui.
+    
+    Depends:
+        - Controller.handleOptionClickEvent()
     */
+    
     static tickIconTagHTML = '<div class="icon tick"><i class="fas fa-check"></i></div>';
     static crossIconTagHTML = '<div class="icon cross"><i class="fas fa-times"></i></div>';
     
@@ -86,6 +90,9 @@ class UIHandler {
                 questionstr: String,
                 options: Array[type: String, length: 4]
               }
+        
+        Depends:
+            - Controller.handleOptionClickEvent()
         */
         
         const que_text = document.querySelector(".que_text");
@@ -101,7 +108,7 @@ class UIHandler {
         this.options = this.optionListElem.querySelectorAll(".option");
 
         this.options.forEach((option) => {
-            option.setAttribute("onclick", "Controller.handleOptionClickedEvent(this)");
+            option.setAttribute("onclick", "Controller.handleOptionClickEvent(this)");
         });
     }
     
