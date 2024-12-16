@@ -3,6 +3,7 @@ class SessionContext {
     SessionContext class is responsible for store session context. 
     
     Methods:
+        - hasNextQuestion(): check wether there is next question or not.
         - changeQuestion(): for changeing question.
         - checkAnswer(): for checking answer.
         - calculateUserPerformance(): for calculating user performance.

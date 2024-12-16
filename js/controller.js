@@ -6,15 +6,6 @@ class Controller {
     Static Methods:
         - init(): for initizalizing controller.
         - run(): for running the controller.
-        - startApp(): for satring the app.
-        - reloadApp(): for reloading the app.
-        - goToHomepage(): for going to homepage.
-        - displayQuizInfo(): for display quiz info.
-        - startQuiz(): for starting a quiz app.
-        - nextQuestion(): for loading a next question.
-        - answerQuestion(): for answering question.
-        - submitQuiz(): for submiting quiz.
-    
     */
     
     static currSession = undefined;
