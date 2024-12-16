@@ -14,6 +14,7 @@ class Controller {
         - nextQuestion(): for loading a next question.
         - answerQuestion(): for answering question.
         - submitQuiz(): for submiting quiz.
+    
     */
     
     static currSession = undefined;
@@ -23,11 +24,7 @@ class Controller {
     static init(initDependency) {
         /*
         for inilizing controller and setup neccessary event listiner.
-        
-        Params:
-            - initDependency: function that needs to inilized the dependency of class, this function will called before run init logic of app.
         */
-        initDependency(); //a function that init all dependency.
         
         Controller.uihandler = new UIHandler();
         Controller.timer = new Timer(15, Controller.onTimerTickUpdate, Controller.onTimerFinish);
@@ -175,5 +172,13 @@ class Controller {
         Controller.uihandler.highlightChoice(Controller.currSession.currentQuestion.answer, true);
         Controller.uihandler.disableOptions();
         Controller.uihandler.updateNextBtnVisiblity(true);
+    }
+    
+    static handleOptionClickedEvent(clickedOption) {
+        /*
+        handle the option click event & update the ui accodringly.
+        */
+        Controller.timer.interupt();
+        Controller.answerQuestion(clickedOption.textContent);
     }
 }
