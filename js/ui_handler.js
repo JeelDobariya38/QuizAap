@@ -91,10 +91,10 @@ class UIHandler {
         const que_text = document.querySelector(".que_text");
 
         let que_tag = '<span>'+ questionNumber + ". " + questionObj.question +'</span>';
-        let option_tag = '<div class="option"><span>'+ questionObj.options[0] +'</span></div>'
-        + '<div class="option"><span>'+ questionObj.options[1] +'</span></div>'
-        + '<div class="option"><span>'+ questionObj.options[2] +'</span></div>'
-        + '<div class="option"><span>'+ questionObj.options[3] +'</span></div>';
+        let option_tag = '<button class="option"><span>'+ questionObj.options[0] +'</span></button>'
+        + '<button class="option"><span>'+ questionObj.options[1] +'</span></button>'
+        + '<button class="option"><span>'+ questionObj.options[2] +'</span></button>'
+        + '<button class="option"><span>'+ questionObj.options[3] +'</span></button>';
         que_text.innerHTML = que_tag;
         this.optionListElem.innerHTML = option_tag;
         

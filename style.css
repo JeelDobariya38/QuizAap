@@ -189,6 +189,7 @@ section .option_list{
 }
 
 section .option_list .option{
+    width: 100%;
     background: aliceblue;
     border: 1px solid #84c5fe;
     border-radius: 5px;
