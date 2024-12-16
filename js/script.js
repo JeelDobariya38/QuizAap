@@ -1,9 +1,10 @@
-//if user clicked on option
-function onOptionSelected(selectedOption) {
-    controller.timer.interupt();
-    controller.answerQuestion(selectedOption.textContent);
-}
+let onOptionSelected = undefined;
 
 // ----- Contoller Part -----
-Controller.init();
+Controller.init(() => {
+    onOptionSelected = (selectedOption) => {
+        Controller.timer.interupt();
+        Controller.answerQuestion(selectedOption.textContent);
+    }
+});
 Controller.run();
