@@ -7,7 +7,7 @@ class Timer {
       - onTimeTick: Function (this function is called on every timer tick with newTime, timeLimit passed as argument)
       - onTimeOut: Function (this function is called when timer finish succesfully without interupts, with newTime passed as argument)
     
-    Methods: (chainable)
+    Methods:
         - start(): for starting timer.
         - interupt(): for interupting timer.
         - reset(): for reset timer.

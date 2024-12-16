@@ -5,5 +5,5 @@ function onOptionSelected(selectedOption) {
 }
 
 // ----- Contoller Part -----
-const controller = new Controller();
-controller.startApp();
+Controller.init();
+Controller.run();

@@ -3,8 +3,9 @@ class Controller {
     Controller class is responsible for maintaing & controlling the flow of application.
     all event listiner are defined here.
     
-    Methods:
-        - setupEventListener(): for setup eventlistener.
+    Static Methods:
+        - init(): for initizalizing controller.
+        - run(): for running the controller.
         - startApp(): for satring the app.
         - reloadApp(): for reloading the app.
         - goToHomepage(): for going to homepage.
@@ -15,13 +16,33 @@ class Controller {
         - submitQuiz(): for submiting quiz.
     */
     
-    constructor() {
-        this.currSession = undefined;
-        this.uihandler = new UIHandler();
-        this.timer = new Timer(15, this.onTimerTickUpdate, this.onTimerFinish);
+    static currSession = undefined;
+    static uihandler = undefined;
+    static timer = undefined;
+    
+    static init(initDependency) {
+        /*
+        for inilizing controller and setup neccessary event listiner.
+        
+        Params:
+            - initDependency: function that needs to inilized the dependency of class, this function will called before run init logic of app.
+        */
+        initDependency(); //a function that init all dependency.
+        
+        Controller.uihandler = new UIHandler();
+        Controller.timer = new Timer(15, Controller.onTimerTickUpdate, Controller.onTimerFinish);
+        Controller.setupEventListener();
     }
     
-    setupEventListener() {
+    static run() {
+        /*
+        for running the controller.
+        */
+        
+        Controller.startApp();
+    }
+    
+    static setupEventListener() {
         /*
         for setup up onclick event listiner.
         */
@@ -34,30 +55,30 @@ class Controller {
         const nextQuestionBtn = document.querySelector("footer .next_btn");
 
 
-        startBtn.onclick = () => this.displayQuizInfo();
-        exitBtn.onclick = () => this.goToHomepage();
-        continueBtn.onclick = () => this.startQuiz();
-        restartQuizBtn.onclick = () => this.startQuiz();
-        quitQuizBtn.onclick = () => this.reloadApp();
+        startBtn.onclick = () => Controller.displayQuizInfo();
+        exitBtn.onclick = () => Controller.goToHomepage();
+        continueBtn.onclick = () => Controller.startQuiz();
+        restartQuizBtn.onclick = () => Controller.startQuiz();
+        quitQuizBtn.onclick = () => Controller.reloadApp();
         nextQuestionBtn.onclick = () => {
-            if(this.currSession.hasNextQuestion()){
-                this.nextQuestion();
+            if(Controller.currSession.hasNextQuestion()){
+                Controller.nextQuestion();
             } 
             else{
-                this.submitQuiz();
+                Controller.submitQuiz();
             }
         }
     }
     
-    startApp() {
+    static startApp() {
         /*
         display the homepage.
         */
         
-        this.goToHomepage();
+        Controller.goToHomepage();
     }
     
-    reloadApp() {
+    static reloadApp() {
         /*
         reload the website.
         */
@@ -65,94 +86,94 @@ class Controller {
         window.location.reload();
     }
     
-    goToHomepage() {
+    static goToHomepage() {
         /*
         display the homepage.
         */
         
-        this.uihandler.toggleScreen(ScreenType.HOME);
+        Controller.uihandler.toggleScreen(ScreenType.HOME);
     }
     
-    displayQuizInfo() {
+    static displayQuizInfo() {
         /*
         display the info about quiz.
         */
         
-        this.uihandler.toggleScreen(ScreenType.INFO);
+        Controller.uihandler.toggleScreen(ScreenType.INFO);
     }
     
-    startQuiz() {
+    static startQuiz() {
         /*
         start a new quiz session, display first question on screen, with timer started.
         */
         
-        this.currSession = new SessionContext();
-        this.uihandler.toggleScreen(ScreenType.QUIZ);
+        Controller.currSession = new SessionContext();
+        Controller.uihandler.toggleScreen(ScreenType.QUIZ);
         
         this.nextQuestion();
     }
     
-    nextQuestion() {
+    static nextQuestion() {
         /*
         display a next question on screen, with timer started again.
         assume, user is on quiz screen as quiz is ongoing...
         */
         
-        this.currSession.changeQuestion();
-        this.uihandler.resetTimeLine();
-        this.uihandler.resetTimeLeftText(this.timer.timeLimit);
-        this.uihandler.updateQuestion(this.currSession.questionCount, this.currSession.currentQuestion);
-        this.uihandler.updateQuestionCounter(this.currSession.questionCount, this.currSession.totalQuestionCount);
-        this.uihandler.updateNextBtnVisiblity(false);
+        Controller.currSession.changeQuestion();
+        Controller.uihandler.resetTimeLine();
+        Controller.uihandler.resetTimeLeftText(Controller.timer.timeLimit);
+        Controller.uihandler.updateQuestion(Controller.currSession.questionCount, Controller.currSession.currentQuestion);
+        Controller.uihandler.updateQuestionCounter(Controller.currSession.questionCount, Controller.currSession.totalQuestionCount);
+        Controller.uihandler.updateNextBtnVisiblity(false);
         
-        this.timer.reset();
-        this.timer.start();
+        Controller.timer.reset();
+        Controller.timer.start();
     }
     
-    answerQuestion(userAns) {
+    static answerQuestion(userAns) {
         /*
         answers the question & update the ui in response to user answer.
         */
         
-        let isOptionCorrect = this.currSession.checkAnswer(userAns);
+        let isOptionCorrect = Controller.currSession.checkAnswer(userAns);
         
         if(isOptionCorrect) {
-            this.currSession.userScore += 1;
+            Controller.currSession.userScore += 1;
         }
         else {
-            this.uihandler.highlightChoice(this.currSession.currentQuestion.answer, true);
+            Controller.uihandler.highlightChoice(Controller.currSession.currentQuestion.answer, true);
         }
         
-        this.uihandler.highlightChoice(userAns, isOptionCorrect);
-        this.uihandler.disableOptions();
-        this.uihandler.updateNextBtnVisiblity(true);
+        Controller.uihandler.highlightChoice(userAns, isOptionCorrect);
+        Controller.uihandler.disableOptions();
+        Controller.uihandler.updateNextBtnVisiblity(true);
     }
     
-    submitQuiz() {
+    static submitQuiz() {
         /*
         display a result screen with user stats. also, reset timer for next time.
         */
-        this.timer.reset();
+        Controller.timer.reset();
         
-        let performanceVector = this.currSession.calculateUserPerformance();
-        this.uihandler.toggleScreen(ScreenType.RESULT);
-        this.uihandler.updateScoreText(performanceVector, this.currSession.userScore, this.currSession.totalQuestionCount);
+        let performanceVector = Controller.currSession.calculateUserPerformance();
+        Controller.uihandler.toggleScreen(ScreenType.RESULT);
+        Controller.uihandler.updateScoreText(performanceVector, Controller.currSession.userScore, Controller.currSession.totalQuestionCount);
     }
     
-    onTimerTickUpdate(newTime, timeLimit) {
+    static onTimerTickUpdate(newTime, timeLimit) {
         /*
         update the ui when timer ticks.
         */
-        this.uihandler.updateTimeLeftText(timeLimit - newTime);
-        this.uihandler.updateTimeLine(newTime, timeLimit);
+        Controller.uihandler.updateTimeLeftText(timeLimit - newTime);
+        Controller.uihandler.updateTimeLine(newTime, timeLimit);
     }
     
-    onTimerFinish(newTime) {
+    static onTimerFinish(newTime) {
         /*
         update the ui when timer finishs.
         */
-        this.uihandler.highlightChoice(this.currSession.currentQuestion.answer, true);
-        this.uihandler.disableOptions();
-        this.uihandler.updateNextBtnVisiblity(true);
+        Controller.uihandler.highlightChoice(Controller.currSession.currentQuestion.answer, true);
+        Controller.uihandler.disableOptions();
+        Controller.uihandler.updateNextBtnVisiblity(true);
     }
 }

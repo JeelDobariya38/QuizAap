@@ -86,6 +86,8 @@ class UIHandler {
                 questionstr: String,
                 options: Array[type: String, length: 4]
               }
+        
+        Note: Depends on external global function onOptionSelected...
         */
         
         const que_text = document.querySelector(".que_text");
@@ -101,7 +103,6 @@ class UIHandler {
         this.options = this.optionListElem.querySelectorAll(".option");
 
         this.options.forEach((option) => {
-            console.log(option);
             option.setAttribute("onclick", "onOptionSelected(this)");
         });
     }
