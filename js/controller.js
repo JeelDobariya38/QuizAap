@@ -41,6 +41,7 @@ class Controller {
         const restartQuizBtn = document.querySelector(".result_box").querySelector(".buttons .restart");
         const quitQuizBtn = document.querySelector(".result_box").querySelector(".buttons .quit");
         const nextQuestionBtn = document.querySelector("footer .next_btn");
+        const submitQuizBtn = document.querySelector("footer .submit_btn");
 
 
         startBtn.onclick = () => Controller.displayQuizInfo();
@@ -56,6 +57,7 @@ class Controller {
                 Controller.submitQuiz();
             }
         }
+        submitQuizBtn.onclick = () => Controller.submitQuiz();
     }
     
     static startApp() {
