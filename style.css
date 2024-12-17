@@ -366,12 +366,14 @@ footer button.show{
     background: #0263ca;
 }
 
-.buttons button.quit{
+.buttons button.quit,
+.buttons button.submit{
     color: #007bff;
     background: #fff;
 }
 
-.buttons button.quit:hover{
+.buttons button.quit:hover,
+.buttons button.submit:hover{
     color: #fff;
     background: #007bff;
 }
